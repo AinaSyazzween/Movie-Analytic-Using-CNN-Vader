@@ -1,0 +1,8 @@
+# MRS
+
+This is the full source code of Movie Recommender System.
+You can try open the folder in Visual studio Code or other software.
+Run the app.py
+Open 'http://localhost:5000/home' in Google to see how the system works.
+
+Warning: Make sure u have installed python, flask, nltk and tensorflow.

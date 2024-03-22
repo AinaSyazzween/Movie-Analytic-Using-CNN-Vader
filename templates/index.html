@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MAS-Recommend</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/jquery.timepicker.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/flaticon.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/style2.css') }}">
+ 
+
+<style>
+
+  :root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  
+  *,
+  *::before,
+  *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box; }
+  
+  html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #8d891e84; }
+  
+  
+  header h1 {
+  
+    font-size: 3vw;
+    line-height: .8;
+    top: 20px;
+    text-align: center;
+    color:rgb(255, 255, 255);
+    left:800px;
+  }
+  
+  #popular{
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 3vw;
+    line-height: .8;
+    text-align: center;
+    color:white;
+  }
+  header h1 span {
+    display: block;
+    font-size: 3.75vw;
+    text-align: center;
+  }
+  #autoComplete {
+    background-position: 98% ;
+  }
+  h3{
+    color: white;
+    font-size: 1vw;
+    line-height: .8;
+    top: 200px;
+    text-align: center;
+    color:white;
+    left:1000px;
+    display: block;
+    text-align: center;
+  }
+  figure {
+    margin: 0;
+  }
+  
+  img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  .movies {
+    display: grid;
+    grid-gap: 3em 2em;
+    grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .movie__figure {
+    position: relative;
+  }
+  
+  .movie__poster {
+    -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+    margin-bottom: 0.5em;
+  }
+  
+  .movie__vote {
+    -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #e2bf1f;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, 0.25);
+          box-shadow: 0 0 1em rgba(0, 0, 0, .25);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 2.25em;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0.5em;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 75%;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  width: 2.25em;
+  }
+  
+  .movie__title {
+
+    font-size: 14px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  :root {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 730px) {
+    :root {
+      font-size: 18px;
+    }
+  }
+  @media screen and (max-width: 540px) {
+    :root {
+      font-size: 16px;
+    }
+  }
+  @media screen and (max-width: 465px) {
+    :root {
+      font-size: 12px;
+    }
+  }
+  .wrapper {
+    height: inherit;
+    width: inherit;
+    margin: 0 auto;
+    padding: 0;
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+            justify-content: center;
+  }
+  
+  .card {
+    width: 16rem;
+    height: 24rem;
+    margin: 2em;
+    background: #aaa;
+    background-size: cover;
+    background-position: center;
+    border-radius: .15em;
+    box-shadow: 0em 0em 1em rgba(0, 0, 0, 0.7);
+    position: relative;
+    color: #917f30;
+    padding: 0em 3em 1.5em 3em;
+    overflow: hidden;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: start;
+            justify-content: start;
+    -webkit-box-align: end;
+            align-items: flex-end;
+    -webkit-transition: all 0.4s ease-in;
+    transition: all 0.4s ease-in;
+  }
+  .card:hover * {
+    cursor: pointer;
+  }
+  .card:hover .card__content {
+    font-size: 1rem;
+  }
+  .card:hover .card__number {
+    opacity: 1;
+    -webkit-transform: translateY(0em);
+            transform: translateY(0em);
+  }
+  .card:hover:before {
+    left: 0em;
+  }
+  .card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -42em;
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, right top, color-stop(46%, rgba(30, 80, 110, 0.6)), to(rgba(39, 90, 161, 0.6)));
+    background: linear-gradient(90deg, rgba(30, 80, 110, 0.6) 46%, rgba(39, 90, 161, 0.6) 100%);
+    z-index: 4;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .card__overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(79, 64, 8, 0.45);
+    z-index: 3;
+  }
+  
+  .card__content {
+  
+    position: relative;
+    font-size: 1rem;
+    z-index: 5;
+    vertical-align: top;
+    text-align: center;
+    -webkit-transition: all 0.3s 0.2s ease-in-out;
+    transition: all 0.3s 0.2s ease-in-out;
+  }
+  .card__content span,
+  .card__content button {
+    font-family: 'Sucrose Bold Two';
+    src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/sucrose.woff2") format("woff2");
+  font-size: 28px;
+  }
+  
+  .card__title {
+    font-size: 3em;
+    vertical-align: top;
+    text-align: center;
+  }
+  
+  
+  .card__number {
+    vertical-align: bottom;
+    text-align: center;
+    font-size: 6.13em;
+    font-weight: bold;
+    z-index: 7;
+    opacity: 0;
+    -webkit-transform: translateY(0.24em);
+            transform: translateY(0.24em);
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  </style>
+</head>
+
+<body style="background-color: #bcb99f84;">
+
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('home') }}"><img style="border-radius: 40%; width:18%;"src="/static/images/logo.jpg"> MAS</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa fa-bars"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+					<li class="nav-item active"><a href="{{ url_for('index') }}" class="nav-link">Recommendation</a></li>
+					<li class="nav-item"><a href="{{ url_for('classification') }}" class="nav-link">Classification</a></li>
+					<li class="nav-item"><a href="{{ url_for('analysis') }}" class="nav-link">Analysis</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="main">
+  
+    <center>
+      <div class="col-md-15 pl-md-5 py-md-5 " >
+        <div class="heading-section pt-md-5" style="margin-top: -50px;" >
+            <h2 style="color: rgb(0, 0, 0);" class="mb-4">Movie Recommendation</h2>
+            <p style="color: rgb(0, 0, 0);">We will recommend similar movies to the movies that you search in the search bar below. We also recommend popular movies and movies that you may like here.</p>
+        </div>
+    </div>
+    </center>
+
+<center><div class="wrap" >
+   <div>
+   <form class="search" action="{{ url_for('main') }}"  method="POST">
+    &nbsp;
+       <input type="text" class="searchTerm" id="autoComplete" autocomplete="off" name="movie_name" placeholder="Search movie">
+   </form>
+    <br>
+ </div></center>
+
+</div>
+
+<div id="loader" class="text-center">
+<div class="results">
+  <div class="heading-section pt-md-5" style="margin-top: -50px;" >
+    <br>
+     <p style="color: rgb(0, 0, 0);">Here are several recommended movies based on your past searching activity.</p>
+</div>
+<div class="wrapper" >
+  <div class="card" id="image1">
+    <div class="card__overlay"></div>
+    <div class="card__content">
+
+    </div><span class="card__number">01</span>
+  </div>
+  <div class="card" id="image2">
+    <div class="card__overlay"></div>
+    <div class="card__content">
+    </div><span class="card__number">02</span>
+  </div>
+  <div class="card" id="image3">
+    <div class="card__overlay"></div>
+    <div class="card__content">
+    </div><span class="card__number">03</span>
+  </div>
+  <div class="card" id="image4">
+    <div class="card__overlay"></div>
+    <div class="card__content">
+    </div><span class="card__number">04</span>
+  </div>
+  <div class="card" id="image5">
+    <div class="card__overlay"></div>
+    <div class="card__content">
+    </div><span class="card__number">05</span>
+  </div>
+  <div class="card" id="image6">
+    <div class="card__overlay"></div>
+    <div class="card__content">
+    </div><span class="card__number">06</span>
+  </div>
+</div>
+<div class="heading-section pt-md-5" style="margin-top: -50px;" >
+  <p style="color: rgb(0, 0, 0);">Here are several popular movies that most people searched for.<br></p>
+</div>
+<br>
+  <div id="root"> <br>
+    <br></div>
+
+
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/prop-types/15.5.10/prop-types.min.js'></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='autocomplete.js')}}"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='recommend.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename='script.js')}}"></script>
+    <script>
+
+    fetch("https://api.themoviedb.org/3/movie/"+{{movieid[0]}}+"?api_key=06412c2ac60d3b3a66c7fb129dcaca28&language=en-US")
+        .then((response) => response.json())
+        .then((data) => {
+        const value = data.poster_path;
+        //Apply HTML src
+
+         var urlString = "url('https://image.tmdb.org/t/p/original" + value + " ')";
+         document.getElementById('image1').style.backgroundImage = urlString;
+    	 document.getElementById('image1').style.backgroundRepeat = "no-repeat";
+    	  document.getElementById('image1').style.backgroundSize = "100%";
+    });
+    fetch("https://api.themoviedb.org/3/movie/"+{{movieid[1]}}+"?api_key=06412c2ac60d3b3a66c7fb129dcaca28&language=en-US")
+        .then((response) => response.json())
+        .then((data) => {
+        const value = data.poster_path;
+        //Apply HTML src
+
+         var urlString = "url('https://image.tmdb.org/t/p/original" + value + " ')";
+         document.getElementById('image2').style.backgroundImage = urlString;
+    	 document.getElementById('image2').style.backgroundRepeat = "no-repeat";
+    	  document.getElementById('image2').style.backgroundSize = "100%";
+    });
+    fetch("https://api.themoviedb.org/3/movie/"+{{movieid[2]}}+"?api_key=06412c2ac60d3b3a66c7fb129dcaca28&language=en-US")
+        .then((response) => response.json())
+        .then((data) => {
+        const value = data.poster_path;
+        //Apply HTML src
+
+         var urlString = "url('https://image.tmdb.org/t/p/original" + value + " ')";
+         document.getElementById('image3').style.backgroundImage = urlString;
+    	 document.getElementById('image3').style.backgroundRepeat = "no-repeat";
+    	  document.getElementById('image3').style.backgroundSize = "100%";
+    });
+    fetch("https://api.themoviedb.org/3/movie/"+{{movieid[3]}}+"?api_key=06412c2ac60d3b3a66c7fb129dcaca28&language=en-US")
+        .then((response) => response.json())
+        .then((data) => {
+        const value = data.poster_path;
+        //Apply HTML src
+
+         var urlString = "url('https://image.tmdb.org/t/p/original" + value + " ')";
+         document.getElementById('image4').style.backgroundImage = urlString;
+        document.getElementById('image4').style.backgroundRepeat = "no-repeat";
+        document.getElementById('image4').style.backgroundSize = "100%";
+    });
+    fetch("https://api.themoviedb.org/3/movie/"+{{movieid[4]}}+"?api_key=06412c2ac60d3b3a66c7fb129dcaca28&language=en-US")
+        .then((response) => response.json())
+        .then((data) => {
+        const value = data.poster_path;
+        //Apply HTML src
+
+         var urlString = "url('https://image.tmdb.org/t/p/original" + value + " ')";
+         document.getElementById('image5').style.backgroundImage = urlString;
+       document.getElementById('image5').style.backgroundRepeat = "no-repeat";
+        document.getElementById('image5').style.backgroundSize = "100%";
+    });
+    fetch("https://api.themoviedb.org/3/movie/"+{{movieid[5]}}+"?api_key=06412c2ac60d3b3a66c7fb129dcaca28&language=en-US")
+        .then((response) => response.json())
+        .then((data) => {
+        const value = data.poster_path;
+        //Apply HTML src
+
+         var urlString = "url('https://image.tmdb.org/t/p/original" + value + " ')";
+         document.getElementById('image6').style.backgroundImage = urlString;
+       document.getElementById('image6').style.backgroundRepeat = "no-repeat";
+        document.getElementById('image6').style.backgroundSize = " 100%";
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>MAS-Genre Prediction</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/owl.theme.default.min.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/magnific-popup.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/bootstrap-datepicker.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/jquery.timepicker.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/flaticon.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/style2.css') }}">
+    <link rel="stylesheet" type= "text/css" href="{{ url_for('static', filename='css/all.min.css') }}">
+
+
+
+<style>
+
+  :root {
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+  
+  *,
+  *::before,
+  *::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box; }
+  
+  html {
+    font-family: sans-serif;
+    line-height: 1.15;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #132b4e84; }
+  
+  
+  header h1 {
+  
+    font-size: 3vw;
+    line-height: .8;
+    top: 20px;
+    text-align: center;
+    color:rgb(255, 255, 255);
+    left:800px;
+  }
+  
+  #popular{
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 3vw;
+    line-height: .8;
+    text-align: center;
+    color:white;
+  }
+  header h1 span {
+    display: block;
+    font-size: 3.75vw;
+    text-align: center;
+  }
+  #autoComplete {
+    background-position: 98% ;
+  }
+  h3{
+    color: white;
+    font-size: 1vw;
+    line-height: .8;
+    top: 200px;
+    text-align: center;
+    color:white;
+    left:1000px;
+    display: block;
+    text-align: center;
+  }
+  figure {
+    margin: 0;
+  }
+  
+  img {
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+  }
+  .movies {
+    display: grid;
+    grid-gap: 3em 2em;
+    grid-template-columns: repeat(auto-fill, minmax(12em, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .movie__figure {
+    position: relative;
+  }
+  
+  .movie__poster {
+    -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+            box-shadow: 0 0 1em rgba(0, 0, 0, .5);
+    margin-bottom: 0.5em;
+  }
+  
+  .movie__vote {
+    -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: #007bff;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, .25);
+          box-shadow: 0 0 1em rgba(0, 0, 0, .25);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 2.25em;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 0.5em;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 75%;
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
+  width: 2.25em;
+  }
+  
+  .movie__title {
+
+    font-size: 14px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  :root {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 730px) {
+    :root {
+      font-size: 18px;
+    }
+  }
+  @media screen and (max-width: 540px) {
+    :root {
+      font-size: 16px;
+    }
+  }
+  @media screen and (max-width: 465px) {
+    :root {
+      font-size: 12px;
+    }
+  }
+  .wrapper {
+    height: inherit;
+    width: inherit;
+    margin: 0 auto;
+    padding: 0;
+    display: -webkit-box;
+    display: flex;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+            justify-content: center;
+  }
+  
+  .card {
+    width: 16rem;
+    height: 24rem;
+    margin: 2em;
+    background: #aaa;
+    background-size: cover;
+    background-position: center;
+    border-radius: .15em;
+    box-shadow: 0em 0em 1em rgba(0, 0, 0, 0.7);
+    position: relative;
+    color: #fff;
+    padding: 0em 3em 1.5em 3em;
+    overflow: hidden;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: start;
+            justify-content: start;
+    -webkit-box-align: end;
+            align-items: flex-end;
+    -webkit-transition: all 0.4s ease-in;
+    transition: all 0.4s ease-in;
+  }
+  .card:hover * {
+    cursor: pointer;
+  }
+  .card:hover .card__content {
+    font-size: 1rem;
+  }
+  .card:hover .card__number {
+    opacity: 1;
+    -webkit-transform: translateY(0em);
+            transform: translateY(0em);
+  }
+  .card:hover:before {
+    left: 0em;
+  }
+  .card:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -42em;
+    height: 100%;
+    width: 100%;
+    background: -webkit-gradient(linear, left top, right top, color-stop(46%, rgba(30, 80, 110, 0.6)), to(rgba(39, 90, 161, 0.6)));
+    background: linear-gradient(90deg, rgba(30, 80, 110, 0.6) 46%, rgba(39, 90, 161, 0.6) 100%);
+    z-index: 4;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .card__overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(33, 33, 33, 0.45);
+    z-index: 3;
+  }
+  
+  .card__content {
+  
+    position: relative;
+    font-size: 1rem;
+    z-index: 5;
+    vertical-align: top;
+    text-align: center;
+    -webkit-transition: all 0.3s 0.2s ease-in-out;
+    transition: all 0.3s 0.2s ease-in-out;
+  }
+  .card__content span,
+  .card__content button {
+    font-family: 'Sucrose Bold Two';
+    src: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/sucrose.woff2") format("woff2");
+  font-size: 28px;
+  }
+  
+  .card__title {
+    font-size: 3em;
+    vertical-align: top;
+    text-align: center;
+  }
+  
+  
+  .card__number {
+    vertical-align: bottom;
+    text-align: center;
+    font-size: 6.13em;
+    font-weight: bold;
+    z-index: 7;
+    opacity: 0;
+    -webkit-transform: translateY(0.24em);
+            transform: translateY(0.24em);
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .container{
+    width: 1170px;
+    margin: auto;
+}
+.intro{
+    margin-bottom: 40px;
+    overflow: hidden;
+}
+.intro .intro-img{
+    width: 50%;
+    height: 170px;
+    overflow: hidden;
+}
+.intro .intro-img img{
+    width: 100%;
+    height: 100%;
+}
+.intro .intro-text{
+    width: 60%;
+}
+.intro .title{
+    text-align: center;
+    font-family: 'Lalezar', cursive;
+    color: rgb(64, 65, 69);
+    font-size: 55px;
+    line-height: 44px;
+    margin-bottom: 8px
+}
+.intro .desc{
+    text-align: center;
+    font-family: sans-serif;
+}
+.poster{
+  display: block;
+  margin-left: 100px;
+  margin-right: 100px;
+  width: 25%;
+    /* overflow: hidden; */ 
+}
+.img-cont{
+    width: 95%;
+    height: 400px;
+    position: relative; 
+    padding: 5px;
+    overflow: hidden;
+    background-color: rgb(255, 255, 255);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(236, 236, 237);
+    border-image: initial;
+    border-radius: 4px;
+}
+.loader{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: none;
+}
+.spinner {
+    margin: 156px auto 0;
+    width: 70px;
+    text-align: center;
+}
+.spinner > div {
+  width: 18px;
+  height: 18px;
+  background-color: #FFF;
+
+  border-radius: 100%;
+  display: inline-block;
+  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+}
+
+.spinner .bounce1 {
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
+}
+
+.spinner .bounce2 {
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
+}
+
+@-webkit-keyframes sk-bouncedelay {
+  0%, 80%, 100% { -webkit-transform: scale(0) }
+  40% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bouncedelay {
+  0%, 80%, 100% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 40% { 
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+  }
+}
+.img-cont img{
+    width: 100%;
+    height: 100%;
+}
+form input[type="submit"]{
+    padding: 14px;
+    margin-top: 20px;
+    display: inline-block;
+    border-radius: 2px;
+    color: #FFF;
+    font-family: sans-serif;
+    width: 70%;
+    font-size: 18px;
+    cursor: not-allowed;
+    background: #007bff;;
+    font-weight: 600;
+    border: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+form input[type="submit"]:hover{
+    background: #007bff
+}
+.inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.inputfile + label {
+    padding: 14px;
+    margin-top: 20px;
+    display: inline-block;
+    border-radius: 2px;
+    color: #FFF;
+    font-family: sans-serif;
+    width: 20%;
+    font-size: 16px;
+    cursor: pointer;
+    background: #20c997 ;
+    font-weight: 600;
+    border: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background: #20c997
+}
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+  
+.clear{
+    clear: both;
+}
+.reverse-img{
+    transform: rotateY(180deg);
+}
+
+  </style>
+</head>
+
+<body style="background-color: #bcb99f84;">
+
+  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('home') }}"><img style="border-radius: 40%; width:18%;"src="/static/images/logo.jpg"> MAS</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="fa fa-bars"></span> Menu
+      </button>
+      <div class="collapse navbar-collapse" id="ftco-nav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+					<li class="nav-item "><a href="{{ url_for('index') }}" class="nav-link">Recommendation</a></li>
+					<li class="nav-item active"><a href="{{ url_for('classification') }}" class="nav-link">Classification</a></li>
+					<li class="nav-item"><a href="{{ url_for('analysis') }}" class="nav-link">Analysis</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <center>
+    <div class="col-md-15 pl-md-5 py-md-5 " >
+      <div class="heading-section pt-md-5" style="margin-top: -50px;" >
+          <h2 style="color: rgb(0, 0, 0);" class="mb-4">Movie Genre Prediction</h2>
+          <p style="color: rgb(0, 0, 0);">We will identify movie genres based on movie posters using multilabel classification.</p>
+          <p style="color: rgb(0, 0, 0);">Click the green button to upload movie poster and the blue button to know the genres.</p>
+
+      </div>
+  </div>
+  </center>
+
+  <center>
+        <div class="clear"></div>
+            <div class="poster fl">
+                <div class="img-cont">
+                    <div class="loader">
+                        <div class="spinner">
+                            <div class="bounce1"></div>
+                            <div class="bounce2"></div>
+                            <div class="bounce3"></div>
+                          </div>
+                    </div>
+                    {% if filename %}
+                    <img src="{{ url_for('static', filename = 'img/'+filename) }}">
+                    {% else %}
+                    <img src="/static/images/upload.png">
+                    {% endif %}
+                </div>
+                <form id="form" method='post' action='/api' enctype="multipart/form-data">
+                    <input type="file" name="file" id="file" class="inputfile" value="">
+                    <label for="file"><i class="fas fa-image fa-lg"></i></label>
+                    <input id="submitBtn" type="submit" value="Check Movie Genres" disabled>
+                </form>
+                </div>
+            </div>
+        </div>
+    </center>
+    <br>
+    <br>
+
+    <center>
+
+            <div class="categories fl">
+
+                {% if sorted_y %}
+                <div class="pred-details-cont"></div>
+                    <div class="top3">
+                      <h2 style="color: rgb(0, 0, 0);" class="mb-4">Movie Genres:</h2>
+                      <div class="top3-details">
+                        <div class="topGenres">
+                            <div class="genre">{{top3[0]}}</div>
+                        </div>
+                        <div class="topGenres">
+                            <div class="genre">{{top3[1]}}</div>
+                        </div>
+                        <div class="topGenres">
+                            <div class="genre">{{top3[2]}}</div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                <br>
+                <br>
+            </div>
+
+        </center>
+        
+        <script src="{{ url_for('static', filename = 'js/custom.js') }}"></script>
+        <script src="{{ url_for('static', filename = 'js/all.min.js') }}"></script>
+    </body>
+</html>
